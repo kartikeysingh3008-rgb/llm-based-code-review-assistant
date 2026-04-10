@@ -1,0 +1,41 @@
+
+		<!-- Footer -->
+			<section id="footer">
+				<div class="container" style="width: 80%; margin: 0 auto;">
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+					<form id="contact-form" method="post" action="{{ url_for('contact') }}">
+						<div class="row uniform">
+							<div class="6u 12u$(xsmall)"><input required type="text" name="name" id="name" placeholder="Name" value="{{ name|default('') }}" /></div>
+							<div class="6u$ 12u$(xsmall)"><input required type="email" name="email" id="email" placeholder="Email" value="{{ email|default('') }}" /></div>
+							<div class="12u$"><textarea required name="message" id="message" placeholder="Message" rows="4">{{ message|default('') }}</textarea></div>
+							<div class="12u$">
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" class="special" /></li>
+								</ul>
+							</div>
+							<div class="12u$">
+								{% if contact_status %}
+								<div style="display:block; padding: 1rem; margin-top: 1rem; border-radius: 4px; background:#e6ffed; color:#0b6623; border:1px solid #0f8f4b;">{{ contact_status }}</div>
+							{% elif contact_error %}
+								<div style="display:block; padding: 1rem; margin-top: 1rem; border-radius: 4px; background:#ffe6e6; color:#9f1b1b; border:1px solid #d33;">{{ contact_error }}</div>
+							{% endif %}
+							</div>
+						</div>
+					</form>
+				</div>
+				<footer>
+					<ul class="icons">
+						<h4>Also check out my socials</h4>
+						<li><a href="https://www.linkedin.com/in/kartikeysingh3008/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="https://github.com/kartikeysingh3008-rgb" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="mailto:kartikeysingh3008@gmail.com" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Code Analyzer 2026</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</footer>
+			</section>
+
+	</body>
+</html>

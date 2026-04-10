@@ -1,0 +1,149 @@
+{% include 'header.html' %}
+
+		<!-- One -->
+			<section id="one" class="main special">
+				<div class="container" style="width: 80%; margin: 0 auto;">
+					<span class="image fit primary"><img src="{{ url_for('static', filename='images/pic01.jpg') }}" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Overview</h2>
+						</header>
+						<p>The <b>AI Code Review Assistant</b> is a smart web-based tool designed to analyze and evaluate Python code with both structural precision and intelligent insights. It combines traditional static analysis techniques with modern AI capabilities to deliver meaningful, real-time feedback to developers.<br><br>
+At its core, the system leverages Python’s <b>Abstract Syntax Tree (AST)</b> to understand code structure—identifying functions, loops, and complexity levels. This is enhanced by a rule-based engine that flags potential issues and suggests improvements based on established coding practices.<br><br>
+To go beyond conventional tools, the project integrates an <b>LLM-powered review system </b> that provides concise, human-like feedback on readability, performance, and best practices. With built-in caching and fallback mechanisms, the system ensures reliability while optimizing performance.<br><br>
+Additionally, the platform includes a <b>scoring system</b> that quantifies code quality and allows users to export detailed reports in PDF format, making it both practical and professional.</p>
+					</div>
+					<a href="#two" class="goto-next scrolly">Next</a>
+				</div>
+			</section>
+
+		<!-- Two -->
+			<section id="two" class="main special">
+				<div class="container" style="width: 80%; margin: 0 auto;">
+					<span class="image fit primary"><img src="{{ url_for('static', filename='images/pic02.jpg') }}" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Why Use It?</h2>
+						</header>
+						<p>This project aims to bridge the gap between traditional code analysis tools and intelligent developer assistants—creating a system that not only evaluates code but also helps developers improve it efficiently.</p>
+						<ul class="icons-grid">
+							<li>
+								<img src="{{ url_for('static', filename='images/parsing.png') }}" alt="AST parsing with modern AI" class="icon major" style="width: 50px; height: 50px; display: block; margin: 0 auto;" /><br>
+								<h3>AST parsing with modern AI</h3>
+							</li>
+							<li>
+								<img src="{{ url_for('static', filename='images/cache.png') }}" alt="caching & fallback handling" class="icon major" style="width: 50px; height: 50px; display: block; margin: 0 auto;" /><br>
+								<h3> caching & fallback handling</h3>
+							</li>
+							<li>
+								<img src="{{ url_for('static', filename='images/analysis.png') }}" alt="Structured Analysis" class="icon major" style="width: 50px; height: 50px; display: block; margin: 0 auto;" /><br>
+								<h3>Structured Analysis</h3>
+							</li>
+							<li>
+								<img src="{{ url_for('static', filename='images/insight.png') }}" alt="actionable insights" class="icon major" style="width: 60px; height: 50px; display: block; margin: 0 auto;" /><br>
+								<h3> actionable insights</h3>
+							</li>
+						</ul>
+					</div>
+					<a href="#three" class="goto-next scrolly">Next</a>
+				</div>
+			</section>
+
+		<!-- Three -->
+			<section id="three" class="main special">
+				<div class="container" style="width: 80%; margin: 0 auto;">
+					<span class="image fit primary"><img src="{{ url_for('static', filename='images/pic03.jpg') }}" alt="" /></span>
+					<div class="content">
+						<header class="major">
+							<h2>Get Started</h2>
+						</header>
+<form action="/analyze#analysis" method="POST">
+    						<textarea name="code" rows="15" placeholder="Paste your Python code..." style="width: 1424px; height: 521px;"></textarea>
+    						<br><br>
+    						<div class="vstack gap-2 col-md-5 mx-auto">
+        					<button type="submit" class="btn btn-primary">Analyze Code</button>
+    						</div>
+						</form>
+
+
+{% if error %}
+<div class="box">
+    <strong style="color:red;">{{ error }}</strong>
+</div>
+{% endif %}
+
+{% if analysis %}
+<div id="analysis" class="box" style="text-align: left;">
+    <h2 style="text-align: center;">Analysis</h2>
+	<h3 style="text-align: left;">Loops and Max Nesting Depth:</h3>
+	<ol>
+    	<li>Loops:</strong> {{ analysis.loops }}</li>
+    	<li>Max Nesting Depth: {{ analysis.max_nesting_depth }}</li>
+	</ol>
+    <h3 style="text-align: left;">Functions:</h3>
+    <ol>
+        {% for func in analysis.functions %}
+        <li>{{ func.name }} (Length: {{ func.length }})</li>
+        {% endfor %}
+    </ol>
+</div>
+{% endif %}
+
+{% if suggestions %}
+<div class="box">
+    <h2 style="text-align: center;">Suggestions</h2>
+	<h3 style="text-align: left;">Model Concludes that:</h3>
+    <ol style="text-align: left;">
+        {% for s in suggestions %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ol>
+</div>
+{% endif %}
+
+{% if llm_review %}
+<div class="box">
+    <h2 style="text-align: center;">AI Review</h2>
+
+    <h3 style="text-align: left;">Readability</h3>
+    <ul style="text-align: left;">
+        {% for item in llm_review.Readability %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 style="text-align: left;">Performance</h3>
+    <ul style="text-align: left;">
+        {% for item in llm_review.Performance %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 style="text-align: left;">Best Practices</h3>
+    <ul style="text-align: left;">
+        {% for item in llm_review['Best Practices'] %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if score %}
+<div class="box">
+    <h2 style="text-align: center;">Code Quality Score</h2>
+    <div style="text-align: center; font-size: 2em; margin: 20px 0;">
+        <strong>{{ score }}/10</strong>
+    </div>
+    {% set rating_color = 'green' if rating == 'Excellent' else 'orange' if rating == 'Good' else 'red' %}
+	<div style="text-align: center; font-size: 1.2em; color: {{ rating_color }};">
+        <strong>{{ rating }}</strong>
+    </div>
+</div>
+{% endif %}
+<a href="/download-report">
+    <div class="vstack gap-2 col-md-5 mx-auto">
+        <button type="button" class="btn btn-dark">Download Report</button>
+    </div>
+</a>
+</section>
+{% include 'footer.html' %}
